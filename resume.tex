@@ -1,0 +1,305 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 0, 0} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Marius Baican's CV},
+    pdfauthor={Marius Baican},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage{charter}
+
+% Some settings:
+\raggedright
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0.15cm} % set column seperation
+\pagenumbering{gobble} % no page numbering
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0 cm + 0.00001 cm
+    }{
+        0 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{, \fill, 4.5 cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for three column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in September 2024}\hspace{\widthof{Last updated in September 2024}}
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{$|$}
+
+    \begin{header}
+        \fontsize{25 pt}{25 pt}\selectfont Marius Baican
+
+        \vspace{5 pt}
+
+        \normalsize
+        \mbox{Bucharest}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{mailto:marius.baican18@gmail.com}{marius.baican18@gmail.com}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{tel:+40755-934-835}{+40755934835}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        % \mbox{\hrefWithoutArrow{https://yourwebsite.com/}{yourwebsite.com}}%
+        % \kern 5.0 pt%
+        % \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{https://linkedin.com/in/marius-baican/}{linkedin.com/in/marius-baican/}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{https://github.com/mariusbaican}{github.com/mariusbaican}}%
+    \end{header}
+
+    \vspace{5 pt - 0.3 cm}
+
+
+    \section{Introduction}
+
+        \begin{onecolentry}
+            Computer Science undergraduate student with a keen eye for detail and a strong interest in building reliable, scalable software. Driven by clean design, thoughtful testing, and systems that work and keep working.
+        \end{onecolentry}
+
+    \section{Education}
+        
+        \begin{twocolentry}{
+            Sept 2023 – Present
+        }
+            \textbf{University Politehnica of Bucharest}, Bachelor's Degree in Computer Science\end{twocolentry}
+
+
+    \section{Experience}
+        
+        \begin{twocolentry}{
+    June 2023 – Present
+}
+    \textbf{Robotics Team Mentor}, BrickBot -- Focșani, VN
+\end{twocolentry}
+
+\vspace{0.10 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Introduced principled design practices for both hardware and software systems
+        \item Created custom learning resources to onboard and support new team members
+        \item Strengthened leadership and mentoring skills through active team guidance and process coordination
+    \end{highlights}
+\end{onecolentry}
+
+
+    
+    \section{Projects}
+
+        \begin{twocolentry}{
+    \href{https://brickbot.vercel.app/en/home}{brickbot.vercel.app/}
+}
+    \textbf{BrickBot Robotics Team Website}
+\end{twocolentry}
+
+\vspace{0.10 cm}
+\begin{onecolentry}
+    Currently working on the official website for the robotics team I mentor, aimed at attracting collaborators, increasing visibility, and presenting our projects to the public.
+
+    \begin{highlights}
+        \item Implemented a modular architecture with reusable React components and server-side rendering via Next.js
+        \item Focused on clean and responsive UI/UX aligned with team brandings
+        \item Tech Stack: TypeScript, React, Next.js, HTML, CSS
+    \end{highlights}
+\end{onecolentry}
+
+\vspace{0.2 cm}
+
+ \begin{twocolentry}{
+    \href{https://brickbot.vercel.app/docs}{brickbot.vercel.app/docs}
+}
+    \textbf{BrickBot Documentation Website}
+\end{twocolentry}
+
+\vspace{0.10 cm}
+\begin{onecolentry}
+    Designed and developed the official website for the robotics team I mentor, aimed at attracting collaborators, increasing visibility, and presenting our projects to the public.
+    \begin{highlights}
+        \item Built using MkDocs and Markdown for a lightweight, fast-loading structure
+        \item Customized theme and navigation for clarity and responsiveness
+        \item Integrated GitHub Pages for seamless CI/CD deployment
+        \item Structured project data with YAML for scalable content management
+        \item Tech Stack: Markdown, CSS, MkDocs, GitHub Pages
+    \end{highlights}
+\end{onecolentry}
+
+\vspace{0.2 cm}
+
+\begin{twocolentry}{
+    \href{https://github.com/SimplicityFTC/SimplicityFTC-Quickstart}{github.com/SimplicityFTC/}
+}
+    \textbf{SimplicityFTC Open-Source Programming Library}
+\end{twocolentry}
+
+\vspace{0.10 cm}
+\begin{onecolentry}
+    Built a performance-oriented robotics library for teams in the FIRST Tech Challenge, simplifying robot programming while integrating powerful, competition-ready tools.
+    \begin{highlights}
+        \item Implemented a structured logging system for in-match and test diagnostics
+        \item Added read/write caching to reduce hardware latency and CPU load
+        \item Developed a command-based framework for modular, readable control logic
+        \item Created a Bézier curve-based autonomous path follower with smooth motion
+        \item Integrated Motion Profiling and a PDFS (Proportional, Derivative, Feedforward and Static terms) controller
+        \item Tech Stack: Java
+    \end{highlights}
+\end{onecolentry}
+
+
+
+    
+    \section{Technologies}
+
+        \begin{onecolentry}
+            \textbf{Languages:} C, Java, HTML, CSS, JavaScript, TypeScript
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \textbf{Technologies:} React.js, Next.js, Vercel, Linux, Git, GitHub Pages
+        \end{onecolentry}
+
+
+    
+
+\end{document}
